@@ -326,7 +326,12 @@ class MFSimulation(PackageContainer):
         self.simulation_data.mfpath.set_last_accessed_path()
 
         # build simulation name file
-        self.name_file = mfnam.ModflowNam(self, fname='mfsim.nam')
+        if sim_nam_file is None:
+          self.name_file = mfnam.ModflowNam(self, fname='mfsim.nam')
+        elif '.nam' in sim_nam_file:
+          self.name_file = mfnam.ModflowNam(self, fname=sim_nam_file)
+        else:
+          self.name_file = mfnam.ModflowNam(self, fname='{}.nam'.format(sim_nam_file))
 
         # try to build directory structure
         try:
